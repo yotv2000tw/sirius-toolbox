@@ -49,6 +49,9 @@ struct AdditionalRewardPackageMaster {
 	int64_t LiveSettingMasterId;
 	vector<struct AdditionalRewardThingMaster> Rewards;
 	bool Etcetera;
+	struct System_Nullable_DateTime StartDate;
+	struct System_Nullable_DateTime EndDate;
+	int32_t Order;
 };
 struct AlbumEffectMaster {
 	int64_t Id;
@@ -137,6 +140,8 @@ struct CampaignMaster {
 	int32_t Order;
 	struct System_DateTime StartDate;
 	struct System_DateTime EndDate;
+	struct System_Nullable_int unknownVariable1;
+	struct CampaignEffectTypes CampaignEffectType;
 	int64_t ComebackCampaignMasterId;
 };
 struct ChangeBodyMotionMaster {
@@ -251,7 +256,7 @@ struct CharacterKeyMissionMaster {
 	int32_t GiveStarPoint;
 	struct System_DateTime StartDate;
 	struct System_DateTime EndDate;
-	struct System_String;
+	int32_t RequiredCategoryCount;
 };
 struct CharacterLessonScoreRewardMaster {
 	int64_t Id;
@@ -320,6 +325,30 @@ struct CharacterPieceMaster {
 	int64_t ItemMasterId;
 	int64_t CharacterMasterId;
 	int32_t DugongRequiredAmount;
+};
+struct CharacterPointEventCharacterRankingRewardItemMaster {
+	int64_t ThingId;
+	struct ThingTypes ThingType;
+	int32_t ThingQuantity;
+};
+struct CharacterPointEventCharacterRankingRewardItemPackageMaster {
+	int64_t Id;
+	vector<struct CharacterPointEventCharacterRankingRewardItemMaster> Items;
+};
+struct CharacterPointEventCharacterRankingRewardMaster {
+	int64_t Id;
+	int64_t CharacterPointEventMasterId;
+	int64_t CharacterBaseMasterId;
+	int32_t TargetMinRank;
+	int32_t TargetMaxRank;
+	int64_t CharacterPointEventCharacterRankingRewardItemPackageMasterId;
+};
+struct CharacterPointEventMaster {
+	int64_t Id;
+	int64_t EventMasterId;
+	struct System_String Title;
+	int64_t ExchangeShopMasterId;
+	int64_t EventPointItemMasterId;
 };
 struct CharacterProfileRestrictionMaster {
 	int64_t Id;
@@ -507,6 +536,45 @@ struct EpisodeRewardPackageMaster {
 	int64_t Id;
 	vector<struct EpisodeRewardThing> Rewards;
 };
+struct EventBoxGachaBoxThingMaster {
+	int64_t Id;
+	int64_t ThingId;
+	struct ThingTypes ThingType;
+	int32_t ThingQuantity;
+	int32_t HitLimit;
+	bool IsResettable;
+};
+struct EventBoxGachaBoxMaster {
+	int64_t Id;
+	int64_t EventBoxGachaMasterId;
+	int32_t Order;
+	vector<struct EventBoxGachaBoxThingMaster> BoxThings;
+};
+struct EventBoxGachaDetailMaster {
+	int64_t Id;
+	int32_t Order;
+	int32_t PrizeCount;
+};
+struct EventBoxGachaMaster {
+	int64_t Id;
+	struct System_String Name;
+	int64_t EventMasterId;
+	int64_t RequiredItemMasterId;
+	inr32_t RequiredQuantity;
+	vector<struct EventBoxGachaDetailMaster> Details;
+	int64_t EventBoxGachaTextTemplateMasterId;
+};
+struct EventBoxGachaTextTemplateMaster {
+	int64_t Id;
+	struct System_String Description;
+};
+struct EventMaster {
+	int64_t Id;
+	struct EventTypes EventType;
+	struct System_DateTime StartDate;
+	struct System_DateTime EndDate;
+	struct System_DateTime ForceEndDate;
+};
 struct ItemMaster {
 	int64_t Id;
 	struct System_String Name;
@@ -595,6 +663,7 @@ struct GachaThing {
 	int32_t ThingType;
 	int32_t ThingQuantity;
 	struct System_Nullable_int PickupOrder;
+	bool IsSelectable;
 };
 struct GachaMaster {
 	int64_t Id;
@@ -823,6 +892,8 @@ struct LiveDropFrameMaster {
 	bool UnaffectedIncreaseEffect;
 	vector<struct LiveDropThingMaster> Rewards;
 	struct System_Nullable_int FrameLotConditionValue;
+	struct System_String unknownVariable1;
+	struct System_String unknownVariable2;
 };
 struct LiveDropFrameGroupMaster {
 	int64_t Id;
@@ -1047,6 +1118,12 @@ struct PhotoSpotMaster {
 	struct System_DateTime DisplayStartAt;
 	struct System_DateTime DisplayEndAt;
 };
+struct PickupSelectionGachaMaster {
+	int64_t Id;
+	int64_t GachaMasterId;
+	int32_t MinSelectCount;
+	int32_t MaxSelectCount;
+};
 struct PlayerRankMaster {
 	int32_t Rank;
 	int32_t PointToLevelUp;
@@ -1219,6 +1296,34 @@ struct SignMaster {
 	int64_t Id;
 	int64_t CharacterBaseMasterId;
 	struct System_String SignImagePath;
+};
+struct SpecialEventLayout {
+	int64_t Id;
+	struct CustomLayoutUITypes UIType;
+	struct System_String UIValue;
+	int64_t AnchorXPercent;
+	int64_t AnchorYPercent;
+	float PositionX;
+	float PositionY;
+	float SizeX;
+	float SizeY;
+	float ScaleX;
+	float ScaleY;
+	int64_t Layer;
+	struct CustomLayoutActionTypes ActionType;
+	struct System_String ActionValue;
+	struct JumpTypes JumpType;
+	struct System_String JumpValue;
+	struct System_DateTime StartDate;
+	struct System_DateTime EndDate;
+};
+struct SpecialEventMaster {
+	int64_t Id;
+	struct EventMaster EventMaster;
+	struct System_String EventName;
+	struct SpecialEventCategoryTypes CategoryType;
+	vector<struct SpecialEventLayout> Layouts;
+	int32_t GameHintPageCount;
 };
 struct SplashMaster {
 	int64_t Id;
@@ -1471,10 +1576,23 @@ struct TipMaster {
 	struct System_String Description;
 	struct System_String Name;
 };
+struct TotalPointEventMaster {
+	int64_t Id;
+	int64_t SpecialEventMasterId;
+};
 struct TournamentDetailMaster {
 	int64_t Id;
 	int64_t MusicMasterId;
 	int32_t Difficulty;
+};
+struct TotalPointEventRewardMaster {
+	int64_t Id;
+	int64_t TotalPointEventMasterId;
+	int64_t Point;
+	struct ThingTypes ThingType;
+	int64_t ThingId;
+	int32_t ThingQuantity;
+	int32_t Order;
 };
 struct TournamentMaster {
 	int64_t Id;
